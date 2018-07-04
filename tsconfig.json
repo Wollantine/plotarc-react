@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "moduleResolution": "node",
+        "target": "es2015",
+        "noEmit": true,
+        "noImplicitAny": false,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "pretty": true,
+        "skipLibCheck": true,
+        "jsx": "preserve"
+    },
+    "exclude": [
+        "./node_modules/**/*"
+    ]
+}
