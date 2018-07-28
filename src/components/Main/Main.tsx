@@ -1,3 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { SearchForm } from '../SearchForm/SearchForm';
 
-export const Main = () => <h1>Hello World!</h1>;
+const MainContainer = () => <SearchForm/>;
+
+const mapStateToProps = (state) => ({
+
+})
+
+export const Main = connect(mapStateToProps)(MainContainer);

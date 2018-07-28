@@ -1,4 +1,5 @@
 import { TReducer, TAction } from "./appReducer";
+import * as R from 'ramda';
 
 export const actionHasField = (fieldName: string) => (action: TAction) => action.fieldName === fieldName;
 
@@ -12,4 +13,10 @@ export const reduceWhen = <T>(
     return condition(action)
         ? reducer(state, action)
         : state;
+};
+
+export const reducer = <T>(state: T, action: TAction, cases: R.Dictionary<() => T>): T => {
+    const defaultCase = () => state;
+    const matchedCase: () => T = R.propOr(defaultCase, action.type, cases);
+    return matchedCase();
 };
