@@ -7,6 +7,7 @@ import { Provider as FelaProvider } from 'react-fela';
 import createSagaMiddleware from 'redux-saga';
 import { appSaga } from './redux/appSaga';
 import { Main } from './components/Main/Main';
+const semanticUiCss = require('semantic-ui-css/semantic.min.css');
 const logger: any = require('redux-logger').default;
 
 
@@ -15,9 +16,11 @@ const store = createStore(
     appReducer,
     applyMiddleware(sagaMiddleware, logger),
 );
-const renderer = createRenderer();
 
 sagaMiddleware.run(appSaga);
+
+const renderer = createRenderer();
+renderer.renderStatic(semanticUiCss.toString());
 
 const App = () => (
     <ReduxProvider store={store}>

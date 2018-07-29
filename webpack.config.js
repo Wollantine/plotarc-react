@@ -18,13 +18,15 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Change this in webpack.config.js!',
+      title: 'Plotarc',
     })
   ],
   module: {
     rules: [
       { test: /\.jsx?|\.tsx?$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.(png|svg|jpg|gif)$/, loader: "file-loader" },
+      { test: /\.(eot|ttf|svg|woff|woff2)$/, loader: "file-loader" },
+      { test: /\.css$/, loader: "css-loader" },
     ]
   }
 };
