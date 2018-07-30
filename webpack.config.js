@@ -10,7 +10,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      model: path.resolve(__dirname, 'src/model'),
+    }
   },
   devServer: {
     contentBase: './'

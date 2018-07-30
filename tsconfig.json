@@ -12,7 +12,8 @@
         "strictPropertyInitialization": true,
         "pretty": true,
         "skipLibCheck": true,
-        "jsx": "preserve"
+        "jsx": "preserve",
+        "baseUrl": "src"
     },
     "exclude": [
         "./node_modules/**/*"

@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import {Note, Category} from '../model/Types';
+import {Note, Category, isA, relatedTo} from '../model/Types';
 import { TSearchFormState } from '../components/SearchForm/SearchFormState';
 
 export type TSelector<T> = (state: IState) => T;
@@ -36,9 +36,6 @@ export const initialState = {
     categories,
     notes,
 }
-
-const isA = (category: string): ((note: Note) => boolean) => R.propSatisfies(R.contains(category), 'isA');
-const relatedTo = (note: string) => R.propSatisfies(R.contains(note), 'relatedTo');
 
 const books = R.pipe(
     R.filter(isA('book')),
