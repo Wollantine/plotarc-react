@@ -18,10 +18,6 @@ const selectNotes = createSelector(
         })),
     )(notes)
 )
-// (state: IState) => R.pipe(
-//     notesSelector,
-//     R.values,
-// )(state);
 
 const mapStateToProps = (state): IProps => ({
     notes: selectNotes(state),
