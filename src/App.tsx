@@ -21,6 +21,7 @@ sagaMiddleware.run(appSaga);
 
 const renderer = createRenderer();
 renderer.renderStatic(semanticUiCss.toString());
+renderer.renderStatic('body{background-color: #f7f7f7}');
 
 const App = () => (
     <ReduxProvider store={store}>
