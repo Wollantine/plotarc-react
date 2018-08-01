@@ -1,7 +1,6 @@
 import * as React from 'react';
-import * as R from 'ramda';
-import { List, Grid, Item } from 'semantic-ui-react';
-import { Note } from '../../model/Types';
+import { Item } from 'semantic-ui-react';
+import { Note } from 'model/Types';
 import { createComponent } from 'react-fela';
 
 export interface IProps {
@@ -17,6 +16,10 @@ const NoteCard = createComponent(() => ({
     backgroundColor: 'white !important',
     borderRadius: '5px !important',
     border: '1px solid #eee !important',
+    boxShadow: '2px 2px 2px -1px #ccc !important',
+    ':hover': {
+        boxShadow: '2px 2px 4px 0px #ccc !important'
+    }
 }), Item as any)
 
 export const NoteListView: React.StatelessComponent<IProps> = ({notes}) => (
