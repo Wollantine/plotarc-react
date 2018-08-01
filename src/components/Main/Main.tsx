@@ -5,10 +5,6 @@ import { NoteList } from '../NoteList/NoteList';
 import { createComponent } from 'react-fela';
 import { Grid } from 'semantic-ui-react';
 
-const Container = createComponent(() => ({
-    display: 'grid',
-    gridTemplateColumns: '10fr 1fr',
-}))
 
 const CustomGrid = createComponent(() => ({
     display: 'grid',
@@ -26,13 +22,18 @@ const Sidebar = createComponent(() => ({
     padding: '50px 50px 0 50px',
 }))
 
+const Container = createComponent(() => ({
+    marginTop: '50px',
+    marginRight: '50px',
+}))
+
 const MainContainer = () => (
     <Grid stackable>
         <Grid.Column width={5}>
             <Sidebar><SearchForm/></Sidebar>
         </Grid.Column>
         <Grid.Column width={11}>
-            <NoteList/>
+            <Container><NoteList/></Container>
         </Grid.Column>
     </Grid>
 )
