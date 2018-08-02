@@ -2,19 +2,33 @@ import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { NoteListView, IProps } from './NoteListView';
 import { notesSelector, IState } from '../../redux/appState';
-import { Note, isA } from 'model/Types';
+import { Note, isA, relatedTo } from 'model/Types';
 import { createSelector } from 'reselect';
-import { selectedCategorySelector } from '../SearchForm/SearchFormState';
+import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
 
+
+const categoryFilterSelector = createSelector(
+    selectedCategorySelector,
+    (selectedCategory) => selectedCategory.caseOf({
+        just: category => R.filter(isA(category)),
+        nothing: () => R.identity,
+    })
+)
+
+const relatedToFilterSelector = createSelector(
+    selectedRelatedToSelector,
+    (selectedRelatedTo) => selectedRelatedTo.caseOf({
+        just: note => R.filter(relatedTo(note)),
+        nothing: () => R.identity,
+    })
+)
 
 const selectNotes = createSelector(
-    notesSelector, selectedCategorySelector,
-    (notes, selectedCategory) => R.pipe(
+    notesSelector, categoryFilterSelector, relatedToFilterSelector,
+    (notes, categoryFilter, relatedToFilter) => R.pipe(
         R.values,
-        (selectedCategory.caseOf({
-            just: category => R.filter(isA(category)),
-            nothing: () => R.identity,
-        })),
+        categoryFilter,
+        relatedToFilter,
     )(notes)
 )
 

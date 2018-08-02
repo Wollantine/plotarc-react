@@ -1,12 +1,17 @@
 import { combineReducers } from "../../../node_modules/redux";
-import { reducer } from "../../redux/genericReducers";
-import { SELECT_CATEGORY } from "./SearchFormActions";
+import { reducer, reducerHush } from "../../redux/genericReducers";
+import { SELECT_CATEGORY, SELECT_RELATED_TO } from "./SearchFormActions";
 import { Maybe } from 'tsmonad';
 
-const selectedCategory = (state = Maybe.nothing(), action) => reducer(state, action, {
+const selectedCategory = reducerHush((state, action) => ({
     [SELECT_CATEGORY]: () => action.category,
-});
+}), Maybe.nothing())
+
+const selectedRelatedTo = reducerHush((state, action) => ({
+    [SELECT_RELATED_TO]: () => action.note,
+}), Maybe.nothing())
 
 export const searchForm = combineReducers({
     selectedCategory,
-});
+    selectedRelatedTo,
+})

@@ -21,10 +21,10 @@ export const NoteListView: React.StatelessComponent<IProps> = ({notes}) => (
     <Item.Group>
         {notes.map(({title}) => (
             <NoteCard key={title}>
-                    <Item.Content>
-                        <Item.Header>{title}</Item.Header>
-                        <Item.Description>Blabla bla bla bla bla bla bla bllabla bla bla bla bla bla bla blaa</Item.Description>
-                    </Item.Content> 
+                <Item.Content>
+                    <Item.Header>{title}</Item.Header>
+                    <Item.Description>Blabla bla bla bla bla bla bla bllabla bla bla bla bla bla bla blaa</Item.Description>
+                </Item.Content> 
             </NoteCard>
         ))}
     </Item.Group>
