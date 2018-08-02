@@ -15,21 +15,21 @@ export const categoriesSelector: TSelector<R.Dictionary<Category>> = state => st
 export const searchFormSelector: TSelector<TSearchFormState> = state => state.searchForm;
 
 export const categories = {
-    'book': {title: 'book', notes: ['Book One']},
-    'chapter': {title: 'chapter', notes: ['Chapter One', 'Chapter Two']},
-    'scene': {title: 'scene', notes: ['Scene 1-1', 'Scene 1-2']},
-    'character': {title: 'character', notes: ['GoodGood', 'GoodBad']},
+    '600k1': {id: '600k1', title: 'book', notes: ['1a345', '1b345']},
+    'ch4p73r2': {id: 'ch4p73r2', title: 'chapter', notes: ['1c345', '1d345']},
+    '5c3n33': {id: '5c3n33', title: 'scene', notes: ['1e345', '1f345']},
+    'ch4r4c73r4': {id: 'ch4r4c73r4', title: 'character', notes: ['1g345', '1h345']},
 }
 
 export const notes: R.Dictionary<Note> = {
-    'Book One': {title: 'Book One', isA: ['book'], relatedTo: ['Chapter One', 'Chapter Two']},
-    'Book Two': {title: 'Book Two', isA: ['book'], relatedTo: []},
-    'Chapter One': {title: 'Chapter One', isA: ['chapter'], relatedTo: ['Book One', 'Scene 1-1', 'Scene 1-2']},
-    'Chapter Two': {title: 'Chapter Two', isA: ['chapter'], relatedTo: ['Book One']},
-    'Scene 1-1': {title: 'Scene 1-1', isA: ['scene'], relatedTo: ['Chapter One', 'Book One', 'GoodGood']},
-    'Scene 1-2': {title: 'Scene 1-2', isA: ['scene'], relatedTo: ['Chapter One', 'Book One', 'GoodGood', 'GoodBad']},
-    'GoodGood': {title: 'GoodGood', isA: ['character'], relatedTo: ['Scene 1-1', 'Scene 1-2', 'Chapter One', 'Book One']},
-    'GoodBad': {title: 'GoodBad', isA: ['character'], relatedTo: ['Scene 1-2', 'Chapter One', 'Book One']},
+    '1a345': {id: '1a345', title: 'Book One', isA: ['600k1'], relatedTo: ['1c345', '1d345']},
+    '1b345': {id: '1b345', title: 'Book Two', isA: ['600k1'], relatedTo: []},
+    '1c345': {id: '1c345', title: 'Chapter One', isA: ['ch4p73r2'], relatedTo: ['1a345', '1e345', '1f345']},
+    '1d345': {id: '1d345', title: 'Chapter Two', isA: ['ch4p73r2'], relatedTo: ['1a345']},
+    '1e345': {id: '1e345', title: 'Scene 1-1', isA: ['5c3n33'], relatedTo: ['1c345', '1a345', '1g345']},
+    '1f345': {id: '1f345', title: 'Scene 1-2', isA: ['5c3n33'], relatedTo: ['1c345', '1a345', '1g345', '1h345']},
+    '1g345': {id: '1g345', title: 'GoodGood', isA: ['ch4r4c73r4'], relatedTo: ['1e345', '1f345', '1c345', '1a345']},
+    '1h345': {id: '1h345', title: 'GoodBad', isA: ['ch4r4c73r4'], relatedTo: ['1f345', '1c345', '1a345']},
 }
 
 export const initialState = {
@@ -38,9 +38,9 @@ export const initialState = {
 }
 
 const books = R.pipe(
-    R.filter(isA('book')),
+    R.filter(isA('600k1')),
     R.values,
-    R.map(R.prop('title')),
+    R.map(R.prop('id')),
 )(notes)
 
 const groupBy = R.curry((groups: string[], notes: Note[]) => (
@@ -51,7 +51,7 @@ const groupBy = R.curry((groups: string[], notes: Note[]) => (
 ))
 
 export const scenesByBook = R.pipe(
-    R.filter(isA('scene')),
+    R.filter(isA('5c3n33')),
     R.values,
     groupBy(books),
 )(notes)

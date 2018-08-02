@@ -7,8 +7,12 @@ import * as R from 'ramda';
 //     has: string[];
 // }
 
-export type Note = {
+export type Indexable = {
+    id: string;
     title: string;
+}
+
+export type Note = Indexable & {
     isA: string[];
     relatedTo: string[];
 }
@@ -16,7 +20,6 @@ export type Note = {
 export const isA = (category: string): ((note: Note) => boolean) => R.propSatisfies(R.contains(category), 'isA');
 export const relatedTo = (note: string) => R.propSatisfies(R.contains(note), 'relatedTo');
 
-export type Category = {
-    title: string;
+export type Category = Indexable & {
     notes: string[];
 }
