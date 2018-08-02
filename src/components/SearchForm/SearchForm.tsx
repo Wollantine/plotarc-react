@@ -34,7 +34,8 @@ const mapStateToProps = (state): IProps => ({
     )(state),
     selectedCategoryText: selectedCategorySelector(state).map(R.prop('title')),
     selectedCategoryValue: selectedCategorySelector(state).map(R.prop('id')),
-    selectedRelatedTo: selectedRelatedToSelector(state),
+    selectedRelatedToText: selectedRelatedToSelector(state).map(R.prop('title')),
+    selectedRelatedToValue: selectedRelatedToSelector(state).map(R.prop('id')),
 })
 
 const mapDispatchToProps = (dispatch): IActions => ({

@@ -8,7 +8,8 @@ export interface IProps {
     notes: R.Dictionary<DropdownItemProps>;
     selectedCategoryText: Maybe<string>;
     selectedCategoryValue: Maybe<string>;
-    selectedRelatedTo: Maybe<string>; 
+    selectedRelatedToText: Maybe<string>; 
+    selectedRelatedToValue: Maybe<string>; 
 }
 
 export interface IActions {
@@ -20,7 +21,7 @@ export const SearchFormView: React.StatelessComponent<IProps & IActions> = (
     {
         categories, notes, selectedCategoryText,
         selectedCategoryValue, onCategorySelect,
-        selectedRelatedTo, onRelatedToSelect
+        selectedRelatedToText, selectedRelatedToValue, onRelatedToSelect
     }
 ) => (
     <>
@@ -43,8 +44,8 @@ export const SearchFormView: React.StatelessComponent<IProps & IActions> = (
             selection
             selectOnBlur={false}
             options={R.values(notes)}
-            text={selectedRelatedTo.valueOr('Select a note')}
-            value={selectedRelatedTo.valueOr(false as any)}
+            text={selectedRelatedToText.valueOr('Select a note')}
+            value={selectedRelatedToValue.valueOr(false as any)}
             onChange={(e, {value}) => onRelatedToSelect(String(value))}
         />
     </>

@@ -18,7 +18,7 @@ const categoryFilterSelector = createSelector(
 const relatedToFilterSelector = createSelector(
     selectedRelatedToSelector,
     (selectedRelatedTo) => selectedRelatedTo.caseOf({
-        just: note => R.filter(relatedTo(note)),
+        just: note => R.filter(relatedTo(note.id)),
         nothing: () => R.identity,
     })
 )
