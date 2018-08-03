@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import {Note, Category, isA, relatedTo} from '../model/Types';
+import {Note, Category, isA, relatedTo, belongsTo} from '../model/Types';
 import { TSearchFormState } from '../components/SearchForm/SearchFormState';
 
 export type TSelector<T> = (state: IState) => T;
@@ -22,14 +22,14 @@ export const categories = {
 }
 
 export const notes: R.Dictionary<Note> = {
-    '1a345': {id: '1a345', title: 'Book One', isA: ['600k1'], relatedTo: ['1c345', '1d345']},
-    '1b345': {id: '1b345', title: 'Book Two', isA: ['600k1'], relatedTo: []},
-    '1c345': {id: '1c345', title: 'Chapter One', isA: ['ch4p73r2'], relatedTo: ['1a345', '1e345', '1f345']},
-    '1d345': {id: '1d345', title: 'Chapter Two', isA: ['ch4p73r2'], relatedTo: ['1a345']},
-    '1e345': {id: '1e345', title: 'Scene 1-1', isA: ['5c3n33'], relatedTo: ['1c345', '1a345', '1g345']},
-    '1f345': {id: '1f345', title: 'Scene 1-2', isA: ['5c3n33'], relatedTo: ['1c345', '1a345', '1g345', '1h345']},
-    '1g345': {id: '1g345', title: 'GoodGood', isA: ['ch4r4c73r4'], relatedTo: ['1e345', '1f345', '1c345', '1a345']},
-    '1h345': {id: '1h345', title: 'GoodBad', isA: ['ch4r4c73r4'], relatedTo: ['1f345', '1c345', '1a345']},
+    '1a345': {id: '1a345', title: 'Book One', isA: ['600k1'], relatedTo: [], belongsTo: [], contains: ['1c345', '1d345', '1e345', '1f345']},
+    '1b345': {id: '1b345', title: 'Book Two', isA: ['600k1'], relatedTo: [], belongsTo: [], contains: []},
+    '1c345': {id: '1c345', title: 'Chapter One', isA: ['ch4p73r2'], relatedTo: [], belongsTo: ['1a345'], contains: ['1e345', '1f345']},
+    '1d345': {id: '1d345', title: 'Chapter Two', isA: ['ch4p73r2'], relatedTo: [], belongsTo: ['1a345'], contains: []},
+    '1e345': {id: '1e345', title: 'Scene 1-1', isA: ['5c3n33'], relatedTo: ['1g345'], belongsTo: ['1c345', '1a345'], contains: []},
+    '1f345': {id: '1f345', title: 'Scene 1-2', isA: ['5c3n33'], relatedTo: ['1g345', '1h345'], belongsTo: ['1c345', '1a345'], contains: []},
+    '1g345': {id: '1g345', title: 'GoodGood', isA: ['ch4r4c73r4'], relatedTo: ['1e345', '1f345', '1c345', '1a345'], belongsTo: [], contains: []},
+    '1h345': {id: '1h345', title: 'GoodBad', isA: ['ch4r4c73r4'], relatedTo: ['1f345', '1c345', '1a345'], belongsTo: [], contains: []},
 }
 
 export const initialState = {
@@ -46,7 +46,7 @@ const books = R.pipe(
 const groupBy = R.curry((groups: string[], notes: Note[]) => (
     groups.reduce((acc, curr) => ({
         ...acc,
-        [curr]: notes.filter(relatedTo(curr))
+        [curr]: notes.filter(belongsTo(curr))
     }), {})
 ))
 

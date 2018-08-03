@@ -10,7 +10,7 @@ import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchFo
 const categoryFilterSelector = createSelector(
     selectedCategorySelector,
     (selectedCategory) => selectedCategory.caseOf({
-        just: category => R.filter(isA(R.tap(console.log, category.id))),
+        just: category => R.filter(isA(category.id)),
         nothing: () => R.identity,
     })
 )
