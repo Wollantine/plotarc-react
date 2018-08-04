@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { categoriesSelector, notesSelector } from '../../redux/appState';
+import { categoriesSelector, notesSelector, IState } from '../../redux/appState';
 import { selectedCategorySelector, selectedRelatedToSelector } from './SearchFormState';
 import { SearchFormView, IProps, IActions } from './SearchFormView';
 import * as R from 'ramda';
@@ -7,6 +7,7 @@ import { DropdownItemProps } from '../../../node_modules/semantic-ui-react';
 import { selectCategory, selectRelatedTo } from './SearchFormActions';
 import { Maybe } from 'tsmonad';
 import { Indexable } from 'model/Types';
+import { createStructuredSelector } from '../../../node_modules/reselect';
 
 const indexableToDropdownItem = (indexable: Indexable): DropdownItemProps => ({
     text: indexable.title,
@@ -22,23 +23,30 @@ const addResetItem = name => dictionary => ({
     ...dictionary,
 })
 
-const mapStateToProps = (state): IProps => ({
-    categories: R.pipe(
-        categoriesSelector,
-        R.mapObjIndexed(indexableToDropdownItem),
-        addResetItem('All categories'),
-    )(state),
-    notes: R.pipe(
-        notesSelector,
-        R.mapObjIndexed(indexableToDropdownItem),
-    )(state),
-    selectedCategoryText: selectedCategorySelector(state).map(R.prop('title')),
-    selectedCategoryValue: selectedCategorySelector(state).map(R.prop('id')),
-    selectedRelatedToText: selectedRelatedToSelector(state).map(R.prop('title')),
-    selectedRelatedToValue: selectedRelatedToSelector(state).map(R.prop('id')),
+export const maybeIndexableToMaybeTitle: (x: Maybe<Indexable>) => Maybe<string> = R.map(R.prop('title')) as any;
+const maybeIndexableToMaybeId: (x: Maybe<Indexable>) => Maybe<string> = R.map(R.prop('id')) as any;
+
+const categoriesWithNoneDropdownSelector = R.pipe(
+    categoriesSelector,
+    R.mapObjIndexed(indexableToDropdownItem),
+    addResetItem('All categories'),
+)
+
+const notesDropdownSelector = R.pipe(
+    notesSelector,
+    R.mapObjIndexed(indexableToDropdownItem),
+)
+
+const mapState: (state: IState) => IProps = createStructuredSelector({
+    categories: categoriesWithNoneDropdownSelector,
+    notes: notesDropdownSelector,
+    selectedCategoryText: R.pipe(selectedCategorySelector, maybeIndexableToMaybeTitle),
+    selectedCategoryValue: R.pipe(selectedCategorySelector, maybeIndexableToMaybeId),
+    selectedRelatedToText: R.pipe(selectedRelatedToSelector, maybeIndexableToMaybeTitle),
+    selectedRelatedToValue: R.pipe(selectedRelatedToSelector, maybeIndexableToMaybeId),
 })
 
-const mapDispatchToProps = (dispatch): IActions => ({
+const mapDispatch = (dispatch): IActions => ({
     onCategorySelect: (category) => {
         const maybeCategory: Maybe<string> = Maybe.maybe(category).chain(c => c === NO_VALUE
             ? Maybe.nothing()
@@ -49,4 +57,4 @@ const mapDispatchToProps = (dispatch): IActions => ({
     onRelatedToSelect: (note) => dispatch(selectRelatedTo(Maybe.maybe(note))),
 })
 
-export const SearchForm = connect(mapStateToProps, mapDispatchToProps)(SearchFormView);
+export const SearchForm = connect(mapState, mapDispatch)(SearchFormView);
