@@ -1,6 +1,5 @@
 import { TReducer, TAction } from "./appReducer";
 import * as R from 'ramda';
-import { StatisticLabel } from "../../node_modules/semantic-ui-react";
 
 export const actionHasField = (fieldName: string) => (action: TAction) => action.fieldName === fieldName;
 

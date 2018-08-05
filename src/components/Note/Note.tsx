@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createComponent } from 'react-fela';
 import { Item } from 'semantic-ui-react';
-import { Note as NoteType } from 'model/Types';
+import { Note as NoteType } from 'model/Note';
 
 
 const NoteCard = createComponent(() => ({

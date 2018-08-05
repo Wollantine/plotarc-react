@@ -6,7 +6,7 @@ import * as R from 'ramda';
 import { DropdownItemProps } from '../../../node_modules/semantic-ui-react';
 import { selectCategory, selectRelatedTo } from './SearchFormActions';
 import { Maybe } from 'tsmonad';
-import { Indexable } from 'model/Types';
+import { Indexable } from 'model/Indexable';
 import { createStructuredSelector } from '../../../node_modules/reselect';
 
 const indexableToDropdownItem = (indexable: Indexable): DropdownItemProps => ({

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {Maybe} from 'tsmonad';
 import { maybeIndexableToMaybeTitle } from './SearchForm';
-import { Indexable } from 'model/Types';
+import { Indexable } from 'model/Indexable';
 
 describe('SearchForm', () => {
     describe('maybeIndexableToMaybeTitle', () => {

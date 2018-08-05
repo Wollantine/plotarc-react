@@ -1,7 +1,8 @@
 import {Maybe} from 'tsmonad';
 import { TSelector, searchFormSelector, categoriesSelector, notesSelector } from '../../redux/appState';
 import { createSelector } from 'reselect';
-import { Category, Note } from 'model/Types';
+import { Note } from 'model/Note';
+import { Category } from 'model/Category';
 
 export interface TSearchFormState {
     selectedCategory: Maybe<string>;

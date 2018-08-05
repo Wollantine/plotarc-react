@@ -1,6 +1,8 @@
 import * as R from 'ramda';
-import {Note, Category, isA, relatedTo, belongsTo} from '../model/Types';
+import {Note, isA, relatedTo, belongsTo} from 'model/Note';
+import {Category} from 'model/Category';
 import { TSearchFormState } from '../components/SearchForm/SearchFormState';
+import { Maybe } from 'tsmonad';
 
 export type TSelector<T> = (state: IState) => T;
 

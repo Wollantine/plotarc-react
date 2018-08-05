@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import { connect } from 'react-redux';
 import { NoteListView, IProps } from './NoteListView';
 import { notesSelector, IState } from '../../redux/appState';
-import { Note, isA, relatedTo } from 'model/Types';
+import { Note, isA, relatedTo } from 'model/Note';
 import { createSelector } from 'reselect';
 import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
 

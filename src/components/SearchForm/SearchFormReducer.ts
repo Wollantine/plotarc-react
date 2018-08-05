@@ -1,4 +1,4 @@
-import { combineReducers } from "../../../node_modules/redux";
+import { combineReducers } from 'redux';
 import { reducer, reducerHush } from "../../redux/genericReducers";
 import { SELECT_CATEGORY, SELECT_RELATED_TO } from "./SearchFormActions";
 import { Maybe } from 'tsmonad';
