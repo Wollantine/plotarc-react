@@ -4,6 +4,7 @@ import { SearchForm } from '../SearchForm/SearchForm';
 import { NoteList } from '../NoteList/NoteList';
 import { createComponent } from 'react-fela';
 import { Grid } from 'semantic-ui-react';
+import { ListDisplay } from '../ListDisplay/ListDisplay';
 
 
 const CustomGrid = createComponent(() => ({
@@ -33,7 +34,7 @@ const MainContainer = () => (
             <Sidebar><SearchForm/></Sidebar>
         </Grid.Column>
         <Grid.Column width={11}>
-            <Container><NoteList/></Container>
+            <Container><ListDisplay/></Container>
         </Grid.Column>
     </Grid>
 )

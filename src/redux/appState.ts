@@ -17,10 +17,10 @@ export const categoriesSelector: TSelector<R.Dictionary<Category>> = state => st
 export const searchFormSelector: TSelector<TSearchFormState> = state => state.searchForm;
 
 export const categories: R.Dictionary<Category> = {
-    '600k1': {id: '600k1', title: 'book', notes: ['1a345', '1b345'], color: 'black'},
-    'ch4p73r2': {id: 'ch4p73r2', title: 'chapter', notes: ['1c345', '1d345'], color: 'black'},
-    '5c3n33': {id: '5c3n33', title: 'scene', notes: ['1e345', '1f345'], color: 'black'},
-    'ch4r4c73r4': {id: 'ch4r4c73r4', title: 'character', notes: ['1g345', '1h345'], color: 'black'},
+    '600k1': {id: '600k1', title: 'book', notes: ['1a345', '1b345'], color: 'violet'},
+    'ch4p73r2': {id: 'ch4p73r2', title: 'chapter', notes: ['1c345', '1d345'], color: 'purple'},
+    '5c3n33': {id: '5c3n33', title: 'scene', notes: ['1e345', '1f345'], color: 'pink'},
+    'ch4r4c73r4': {id: 'ch4r4c73r4', title: 'character', notes: ['1g345', '1h345'], color: 'olive'},
 }
 
 export const notes: R.Dictionary<Note> = {
