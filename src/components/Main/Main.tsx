@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { SearchForm } from '../SearchForm/SearchForm';
 import { createComponent } from 'react-fela';
 import { Grid, Sticky } from 'semantic-ui-react';
@@ -15,7 +14,7 @@ const Container = createComponent(() => ({
     marginRight: '50px',
 }))
 
-const MainContainer = () => (
+export const Main = () => (
     <Grid stackable>
         <Grid.Column width={5}>
             <Sticky>
@@ -27,9 +26,3 @@ const MainContainer = () => (
         </Grid.Column>
     </Grid>
 )
-
-const mapStateToProps = (state) => ({
-
-})
-
-export const Main = connect(mapStateToProps)(MainContainer);

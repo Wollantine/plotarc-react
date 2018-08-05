@@ -1,52 +1,46 @@
 import * as React from 'react';
 import { Maybe } from 'tsmonad';
-import { Dropdown, DropdownItemProps } from 'semantic-ui-react';
-import * as R from 'ramda';
+import { Selector } from './Selector/Selector';
+import { Category } from 'model/Category';
+import { Note } from 'model/Note';
 
 export interface IProps {
-    categories: R.Dictionary<DropdownItemProps>;
-    notes: R.Dictionary<DropdownItemProps>;
-    selectedCategoryText: Maybe<string>;
-    selectedCategoryValue: Maybe<string>;
-    selectedRelatedToText: Maybe<string>; 
-    selectedRelatedToValue: Maybe<string>; 
+    categories: Category[];
+    notes: Note[];
+    selectedCategory: Maybe<Category>;
+    selectedRelatedTo: Maybe<Note>;
+    selectedGroupBy: Maybe<Category>;
 }
 
 export interface IActions {
-    onCategorySelect: (category: string) => void;
-    onRelatedToSelect: (note: string) => void;
+    onCategorySelect: (category: Maybe<string>) => void;
+    onRelatedToSelect: (note: Maybe<string>) => void;
+    onGroupBySelect: (category: Maybe<string>) => void;
 }
 
-export const SearchFormView: React.StatelessComponent<IProps & IActions> = (
-    {
-        categories, notes, selectedCategoryText,
-        selectedCategoryValue, onCategorySelect,
-        selectedRelatedToText, selectedRelatedToValue, onRelatedToSelect
-    }
-) => (
+export const SearchFormView: React.StatelessComponent<IProps & IActions> = ({
+    categories, notes, selectedCategory, onCategorySelect,
+    selectedRelatedTo, onRelatedToSelect,
+    selectedGroupBy, onGroupBySelect,
+}) => (
     <>
-        <Dropdown
-            key="categoryFilter"
-            search
-            deburr
-            selection
-            selectOnBlur={false}
-            options={R.values(categories)}
-            text={selectedCategoryText.valueOr('Select a category')}
-            value={selectedCategoryValue.valueOr(false as any)}
-            onChange={(e, {value}) => onCategorySelect(String(value))}
+        <Selector
+            items={categories}
+            resetItem='All categories'
+            selectedItem={selectedCategory}
+            onSelect={onCategorySelect}
         />
         <span>Related to:</span>
-        <Dropdown
-            key="relatedTo"
-            search
-            deburr
-            selection
-            selectOnBlur={false}
-            options={R.values(notes)}
-            text={selectedRelatedToText.valueOr('Select a note')}
-            value={selectedRelatedToValue.valueOr(false as any)}
-            onChange={(e, {value}) => onRelatedToSelect(String(value))}
+        <Selector
+            items={notes}
+            selectedItem={selectedRelatedTo}
+            onSelect={onRelatedToSelect}
+        />
+        <span>Group by:</span>
+        <Selector
+            items={categories}
+            selectedItem={selectedGroupBy}
+            onSelect={onGroupBySelect}
         />
     </>
 );

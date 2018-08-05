@@ -1,9 +1,9 @@
 import {expect} from 'chai';
 import {Maybe} from 'tsmonad';
-import { maybeIndexableToMaybeTitle } from './SearchForm';
+import { maybeIndexableToMaybeTitle } from './Selector';
 import { Indexable } from 'model/Indexable';
 
-describe('SearchForm', () => {
+describe('Selector', () => {
     describe('maybeIndexableToMaybeTitle', () => {
         it('should map just a note to just a title', () => {
             const note = Maybe.just({id: '', title: 'test'});
