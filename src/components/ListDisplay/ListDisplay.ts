@@ -5,7 +5,7 @@ import { Note, isA, relatedTo } from 'model/Note';
 import { createSelector } from 'reselect';
 import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
 import { IProps, ListDisplayView, Group } from './ListDisplayView';
-import { Either } from 'tsmonad';
+import { Either, Maybe } from 'tsmonad';
 
 
 const categoryFilterSelector = createSelector(
@@ -45,10 +45,10 @@ export const groupsSelector = createSelector(
     )(filteredNotes)
 )
 
-const eitherOneOrMany = <T>(arr: T[]): Either<T, T[]> => (
-    arr.length > 1
-        ? Either.right(arr)
-        : Either.left(R.head(arr))
+const eitherOneOrMany = <T>(arr: T[]): Either<Maybe<T>, T[]> => (
+    arr.length <= 1
+        ? Either.left(Maybe.maybe(R.head(arr)))
+        : Either.right(arr)
 )
 
 const mapState = (state: IState): IProps => ({
