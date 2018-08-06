@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Item } from 'semantic-ui-react';
 import { Note as NoteType } from 'model/Note';
-import { createComponent } from 'react-fela';
 import { Note } from '../Note/Note';
 import { Category } from 'model/Category';
 

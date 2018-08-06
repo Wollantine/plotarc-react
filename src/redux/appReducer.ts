@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import * as AppState from './appState';
 import {searchForm} from '../components/SearchForm/SearchFormReducer';
+import {emptyList} from '../components/ListDisplay/EmptyList/EmptyListReducer';
 
 export type TAction = {
     [key: string]: any;
@@ -16,4 +17,5 @@ export const appReducer = combineReducers({
     notes,
     categories,
     searchForm,
+    emptyList,
 });

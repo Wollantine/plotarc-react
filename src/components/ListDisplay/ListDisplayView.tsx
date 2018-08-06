@@ -4,8 +4,7 @@ import { Note } from 'model/Note';
 import { NoteGroup } from '../NoteGroup/NoteGroup';
 import { Either, Maybe } from 'tsmonad';
 import { NoteList } from '../NoteList/NoteList';
-import { Message, Header, Icon, Grid } from 'semantic-ui-react';
-import { createComponent } from 'react-fela';
+import { EmptyList } from './EmptyList/EmptyList';
 
 export interface Group {
     category: Category;
@@ -20,19 +19,6 @@ const GroupList: React.StatelessComponent<{groups: Group[]}> = ({groups}) => (
     <>
         {groups.map(group => <NoteGroup key={group.category.id} {...group}/>)}
     </>
-)
-
-const NotFoundSplash = createComponent(() => ({
-    marginTop: '100px !important',
-}), (props: any) => <Header icon {...props}/>)
-
-const EmptyList = () => (
-    <Grid centered columns={1}>
-        <NotFoundSplash icon>
-            <Icon name="search"/>
-            Nothing here.
-        </NotFoundSplash>
-    </Grid>
 )
 
 export const ListDisplayView: React.StatelessComponent<IProps> = ({groups}) => {

@@ -21,8 +21,6 @@ export const reducer = <T>(state: T, action: TAction, cases: R.Dictionary<() => 
     return matchedCase();
 };
 
-const NO_DEFAULT_CASE_ERROR = 'reducerHush passed in function must return an object with a `default` field';
-
 export const reducerHush = <T>(reducer: (state: T, action: TAction) => R.Dictionary<() => T>, initialState: T): TReducer<T> => {
     return (state, action) => {
         const initializedState = (state === undefined) ? initialState : state;
