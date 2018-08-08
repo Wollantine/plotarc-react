@@ -12,11 +12,16 @@ const messagePool = [
     'Nope.',
     'Rien de rien.',
     'No results.',
+    'Miss.',
     'Niente.',
     'Empty list.',
-    'Void.',
     'Barren note list.',
     'Missing some notes relationships?',
+    'Nothingness.',
+    'Much empty. Very nothing. Wow.',
+    'Emptyness.',
+    'What was that noise?',
+    'Void.',
 ];
 
 const getMessageNumber = (num: number): string => (

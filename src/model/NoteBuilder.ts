@@ -6,7 +6,7 @@ const defaultNote: Note = {
     isA: 'c1',
     belongsTo: [],
     contains: [],
-    relatedTo: [],
+    linkedWith: [],
 }
 
 export const NoteBuilder = (custom: Partial<Note>): Note => ({
