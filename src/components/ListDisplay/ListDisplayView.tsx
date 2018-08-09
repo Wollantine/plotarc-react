@@ -4,7 +4,6 @@ import { Note } from 'model/Note';
 import { NoteGroup } from '../NoteGroup/NoteGroup';
 import { Either, Maybe } from 'tsmonad';
 import { NoteList } from '../NoteList/NoteList';
-import { EmptyList } from './EmptyList/EmptyList';
 
 export interface Group {
     category: Category;
@@ -12,7 +11,7 @@ export interface Group {
 }
 
 export interface IProps {
-    groups: Either<Maybe<Group>, Group[]>;
+    groupedNotes: Either<Note[], Group[]>;
 }
 
 const GroupList: React.StatelessComponent<{groups: Group[]}> = ({groups}) => (
@@ -21,12 +20,9 @@ const GroupList: React.StatelessComponent<{groups: Group[]}> = ({groups}) => (
     </>
 )
 
-export const ListDisplayView: React.StatelessComponent<IProps> = ({groups}) => {
-    return groups.caseOf({
-        left: maybeGroup => maybeGroup.caseOf({
-            just: group => <NoteList notes={group.notes}/>,
-            nothing: () => <EmptyList/>,
-        }),
+export const ListDisplayView: React.StatelessComponent<IProps> = ({groupedNotes}) => {
+    return groupedNotes.caseOf({
+        left: notes => <NoteList notes={notes}/>,
         right: groupList => <GroupList groups={groupList}/>
     })
 }

@@ -1,11 +1,13 @@
 import * as R from 'ramda';
 import { connect } from 'react-redux';
-import { notesSelector, IState, categoriesSelector } from '../../redux/appState';
+import { notesSelector, IState, categoriesSelector, TSelector } from '../../redux/appState';
 import { Note, isA, relatedTo } from 'model/Note';
 import { createSelector } from 'reselect';
 import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
 import { IProps, ListDisplayView, Group } from './ListDisplayView';
 import { Either, Maybe } from 'tsmonad';
+import { branch, renderComponent } from 'recompose';
+import { EmptyList } from './EmptyList/EmptyList';
 
 
 const categoryFilterSelector = createSelector(
@@ -45,14 +47,24 @@ export const groupsSelector = createSelector(
     )(filteredNotes)
 )
 
-const eitherOneOrMany = <T>(arr: T[]): Either<Maybe<T>, T[]> => (
-    arr.length <= 1
-        ? Either.left(Maybe.maybe(R.head(arr)))
-        : Either.right(arr)
+const eitherNotesOrGroups = (groups: Group[]): Either<Note[], Group[]> => (
+    groups.length <= 1
+        ? Either.left(R.propOr([], 'notes', R.head(groups)))
+        : Either.right(groups)
 )
 
 const mapState = (state: IState): IProps => ({
-    groups: eitherOneOrMany(groupsSelector(state)),
+    groupedNotes: eitherNotesOrGroups(groupsSelector(state)),
 })
 
-export const ListDisplay = connect(mapState)(ListDisplayView);
+export const hasZeroNotes = ({groupedNotes}: IProps) => groupedNotes.caseOf({
+    left: R.isEmpty,
+    right: R.either(R.isEmpty, R.all(R.propSatisfies(R.isEmpty, 'notes'))),
+});
+
+const emptyListWhenNoResults = branch(hasZeroNotes, renderComponent(EmptyList));
+
+export const ListDisplay = R.compose(
+    connect(mapState),
+    emptyListWhenNoResults,
+)(ListDisplayView);
