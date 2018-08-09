@@ -29,18 +29,21 @@ export const SearchFormView: React.StatelessComponent<IProps & IActions> = ({
             resetItem='All categories'
             selectedItem={selectedCategory}
             onSelect={onCategorySelect}
+            placeholder='Select a category'
         />
         <span>Related to:</span>
         <Selector
             items={notes}
             selectedItem={selectedRelatedTo}
             onSelect={onRelatedToSelect}
+            placeholder='Select a note'
         />
         <span>Group by:</span>
         <Selector
             items={categories}
             selectedItem={selectedGroupBy}
             onSelect={onGroupBySelect}
+            placeholder='Select a category'
         />
     </>
 );

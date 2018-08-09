@@ -9,6 +9,7 @@ export interface IProps {
     items: Indexable[];
     resetItem?: string;
     selectedItem: Maybe<Indexable>;
+    placeholder?: string;
     onSelect: (selected: Maybe<string>) => void;
 }
 
@@ -45,6 +46,7 @@ const propsToSelectorProps = (props: IProps): ISelectorProps => ({
     )(props.items),
     selectedItemText: maybeIndexableToMaybeTitle(props.selectedItem),
     selectedItemValue: maybeIndexableToMaybeId(props.selectedItem),
+    placeholder: Maybe.maybe(props.placeholder),
     onSelect: (selected: string) => props.onSelect(noValueToNothing(selected)),
 })
 

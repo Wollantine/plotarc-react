@@ -7,11 +7,21 @@ export interface IProps {
     items: DropdownItemProps[];
     selectedItemText: Maybe<string>;
     selectedItemValue: Maybe<string>;
+    placeholder: Maybe<string>;
     onSelect: (selected: string) => void;
 }
 
+const defaultPlaceholder = '---';
+
+const join = <T extends any>(maybeA: Maybe<T>, maybeB: Maybe<T>): Maybe<T> => (
+    maybeA.caseOf({
+        just: _ => maybeA,
+        nothing: () => maybeB,
+    })
+)
+
 export const SelectorView: React.StatelessComponent<IProps> = ({
-    items, selectedItemText, selectedItemValue, onSelect,
+    items, selectedItemText, selectedItemValue, onSelect, placeholder,
 }) => (
     <Dropdown
         search
@@ -19,7 +29,7 @@ export const SelectorView: React.StatelessComponent<IProps> = ({
         selection
         selectOnBlur={false}
         options={items}
-        text={selectedItemText.valueOr('Select a category')}
+        text={join(selectedItemText, placeholder).valueOr(defaultPlaceholder)}
         value={selectedItemValue.valueOr(false as any)}
         onChange={(e, {value}) => onSelect(String(value))}
     />
