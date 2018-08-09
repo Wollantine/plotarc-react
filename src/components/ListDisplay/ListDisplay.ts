@@ -4,10 +4,11 @@ import { notesSelector, IState, categoriesSelector, TSelector } from '../../redu
 import { Note, isA, relatedTo } from 'model/Note';
 import { createSelector } from 'reselect';
 import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
-import { IProps, ListDisplayView, Group } from './ListDisplayView';
+import { IProps, ListDisplayView } from './ListDisplayView';
 import { Either, Maybe } from 'tsmonad';
 import { branch, renderComponent } from 'recompose';
 import { EmptyList } from './EmptyList/EmptyList';
+import { Group } from 'model/Group';
 
 
 const categoryFilterSelector = createSelector(
@@ -41,7 +42,7 @@ export const groupsSelector = createSelector(
         R.groupBy((note: Note) => note.isA),
         R.toPairs,
         R.map(([category, notes]: [string, Note[]]) => ({
-            category: categories[category],
+            header: Either.right(categories[category]),
             notes,
         }))
     )(filteredNotes)
