@@ -5,28 +5,33 @@ import { Note } from 'model/Note';
 import { Category } from 'model/Category';
 
 export interface TSearchFormState {
-    selectedCategory: Maybe<string>;
-    selectedRelatedTo: Maybe<string>;
-    selectedGroupBy: Maybe<string>;
+    selectedCategoryId: Maybe<string>;
+    selectedRelatedToId: Maybe<string>;
+    selectedGroupById: Maybe<string>;
 }
 
+export const selectedCategoryIdSelector: TSelector<Maybe<string>> = createSelector(searchFormSelector, s => s.selectedCategoryId)
+export const selectedRelatedToIdSelector: TSelector<Maybe<string>> = createSelector(searchFormSelector, s => s.selectedRelatedToId)
+export const selectedGroupByIdSelector: TSelector<Maybe<string>> = createSelector(searchFormSelector, s => s.selectedGroupById)
+
 export const selectedCategorySelector: TSelector<Maybe<Category>> = createSelector(
-    searchFormSelector, categoriesSelector,
-    (searchForm, categories) => searchForm.selectedCategory.map(
-        categoryId => categories[categoryId]
+    selectedCategoryIdSelector, categoriesSelector,
+    (selectedCategoryId, categories) => selectedCategoryId.map(
+        id => categories[id]
     )
 )
 
 export const selectedRelatedToSelector: TSelector<Maybe<Note>> = createSelector(
-    searchFormSelector, notesSelector,
-    (searchForm, notes) => searchForm.selectedRelatedTo.map(
-        noteId => notes[noteId]
+    selectedRelatedToIdSelector, notesSelector,
+    (selectedRelatedToId, notes) => selectedRelatedToId.map(
+        id => notes[id]
     )
 )
 
 export const selectedGroupBySelector: TSelector<Maybe<Category>> = createSelector(
-    searchFormSelector, categoriesSelector,
-    (searchForm, categories) => searchForm.selectedGroupBy.map(
-        categoryId => categories[categoryId]
+    selectedGroupByIdSelector, categoriesSelector,
+    (selectedGroupById, categories) => selectedGroupById.map(
+        id => categories[id]
     )
 )
+

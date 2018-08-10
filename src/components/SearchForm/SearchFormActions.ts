@@ -5,17 +5,17 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY';
 export const SELECT_RELATED_TO = 'SELECT_RELATED_TO';
 export const SELECT_GROUP_BY = 'SELECT_GROUP_BY';
 
-export const selectCategory = (category: Maybe<string>): TAction => ({
+export const selectCategory = (categoryId: Maybe<string>): TAction => ({
     type: SELECT_CATEGORY,
-    category,
+    categoryId,
 })
 
-export const selectRelatedTo = (note: Maybe<string>): TAction => ({
+export const selectRelatedTo = (noteId: Maybe<string>): TAction => ({
     type: SELECT_RELATED_TO,
-    note,
+    noteId,
 })
 
-export const selectGroupBy = (category: Maybe<string>): TAction => ({
+export const selectGroupBy = (categoryId: Maybe<string>): TAction => ({
     type: SELECT_GROUP_BY,
-    category,
+    categoryId,
 })
