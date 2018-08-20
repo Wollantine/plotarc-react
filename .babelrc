@@ -8,7 +8,8 @@
     ["module-resolver", {
       "root": ["/src"],
       "alias": {
-        "model": "./src/model"
+        "model": "./src/model",
+        "queryEngine": "./src/queryEngine"
       }
     }]
   ]

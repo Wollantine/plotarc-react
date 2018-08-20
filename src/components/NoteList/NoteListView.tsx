@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Item } from 'semantic-ui-react';
-import { Note as NoteType } from 'model/Note';
+import { Note as TNote } from 'model/Note';
 import { Note } from '../Note/Note';
 import { Category } from 'model/Category';
 
@@ -9,7 +9,7 @@ export interface IReduxProps {
 }
 
 export interface IProps {
-    notes: NoteType[];
+    notes: TNote[];
 }
 
 export const NoteListView: React.StatelessComponent<IReduxProps & IProps> = ({notes, categories}) => (

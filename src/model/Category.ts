@@ -5,3 +5,5 @@ export type Category = Indexable & {
     notes: string[];
     color: SemanticCOLORS;
 }
+
+export type TCategoryOrId = Category | string;

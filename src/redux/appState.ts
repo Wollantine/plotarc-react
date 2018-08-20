@@ -1,11 +1,14 @@
 import * as R from 'ramda';
-import {Note, isA, relatedTo, belongsTo} from 'model/Note';
-import {Category} from 'model/Category';
+import { Note } from 'model/Note';
+import { Category } from 'model/Category';
 import { TSearchFormState } from '../components/SearchForm/SearchFormState';
 import { Maybe } from 'tsmonad';
 import { TEmptyListState } from 'components/ListDisplay/EmptyList/EmptyListState';
+import { hasCategory, isRelatedTo } from 'queryEngine/filtering';
 
 export type TSelector<T> = (state: IState) => T;
+
+export type TestableSelector<T> = TSelector<T> & {resultFunc: () => T};
 
 export interface IState {
     notes: R.Dictionary<Note>;
@@ -43,7 +46,7 @@ export const initialState = {
 }
 
 const books = R.pipe(
-    R.filter(isA('600k1')),
+    R.filter(hasCategory('600k1')),
     R.values,
     R.map(R.prop('id')),
 )(notes)
@@ -51,12 +54,12 @@ const books = R.pipe(
 const groupBy = R.curry((groups: string[], notes: Note[]) => (
     groups.reduce((acc, curr) => ({
         ...acc,
-        [curr]: notes.filter(relatedTo(curr))
+        [curr]: notes.filter(isRelatedTo(curr))
     }), {})
 ))
 
 export const scenesByBook = R.pipe(
-    R.filter(isA('5c3n33')),
+    R.filter(hasCategory('5c3n33')),
     R.values,
     groupBy(books),
 )(notes)

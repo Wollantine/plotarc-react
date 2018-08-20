@@ -13,6 +13,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       model: path.resolve(__dirname, 'src/model'),
+      queryEngine: path.resolve(__dirname, 'src/queryEngine'),
     }
   },
   devServer: {

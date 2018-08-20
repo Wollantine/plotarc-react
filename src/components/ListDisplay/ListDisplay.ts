@@ -1,71 +1,53 @@
-import * as R from 'ramda';
-import { connect } from 'react-redux';
-import { notesSelector, IState, categoriesSelector, TSelector } from '../../redux/appState';
-import { Note, isA, relatedTo } from 'model/Note';
-import { createSelector } from 'reselect';
-import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
-import { IProps, ListDisplayView } from './ListDisplayView';
-import { Either, Maybe } from 'tsmonad';
+import {complement as not, both, either, compose} from 'ramda';
 import { branch, renderComponent } from 'recompose';
 import { EmptyList } from './EmptyList/EmptyList';
-import { Group } from 'model/Group';
+import * as R from 'ramda';
+import { Note, TNoteList } from 'model/Note';
+import { notesSelector } from '../../redux/appState';
+import { connect } from 'react-redux';
+import { selectedCategorySelector, selectedRelatedToSelector } from '../SearchForm/SearchFormState';
+import { hasCategory, isRelatedTo, filterNotes } from 'queryEngine/filtering';
+import { createSelector } from 'reselect';
+import { Maybe } from 'tsmonad';
+import { Category } from 'model/Category';
+import { NoteList } from '../NoteList/NoteList';
 
 
-const categoryFilterSelector = createSelector(
-    selectedCategorySelector,
-    (selectedCategory) => selectedCategory.caseOf({
-        just: category => R.filter(isA(category.id)),
-        nothing: () => R.identity,
-    })
+const mustGroupByCategories = () => false
+const isListEmpty = ({notes}) => R.isEmpty(notes)
+const mustGroupByNotes = () => false
+const hasOnlyOneGroup = () => false
+
+const mustShowGroupList = both(
+    not(hasOnlyOneGroup),
+    either(mustGroupByNotes, mustGroupByCategories),
 )
 
-const relatedToFilterSelector = createSelector(
-    selectedRelatedToSelector,
-    (selectedRelatedTo) => selectedRelatedTo.caseOf({
-        just: note => R.filter(relatedTo(note.id)),
-        nothing: () => R.identity,
-    })
-)
+// const notesListToGroups = ({notesList}) => {
+//     return {
+//         groupsBy
+//     }
+// }
 
 const filteredNotesSelector = createSelector(
-    notesSelector, categoryFilterSelector, relatedToFilterSelector,
-    (notes, categoryFilter, relatedToFilter) => R.pipe(
-        R.values,
-        categoryFilter,
-        relatedToFilter,
-    )(notes)
+    selectedCategorySelector, selectedRelatedToSelector, notesSelector,
+    filteredNotesToProps
 )
 
-export const groupsSelector = createSelector(
-    filteredNotesSelector, categoriesSelector,
-    (filteredNotes, categories) => R.pipe(
-        R.groupBy((note: Note) => note.isA),
-        R.toPairs,
-        R.map(([category, notes]: [string, Note[]]) => ({
-            header: Either.right(categories[category]),
-            notes,
-        }))
-    )(filteredNotes)
-)
+export function filteredNotesToProps(selectedCategory: Maybe<Category>, selectedRelatedTo: Maybe<Note>, notes: R.Dictionary<Note>): TNoteList {
+    const filters = [
+        selectedCategory.map(category => hasCategory(category)),
+        selectedRelatedTo.map(relatedNote => isRelatedTo(relatedNote)),
+    ]
+    return {
+        notes: filterNotes(R.values(notes), filters),
+    }
+}
 
-const eitherNotesOrGroups = (groups: Group[]): Either<Note[], Group[]> => (
-    groups.length <= 1
-        ? Either.left(R.propOr([], 'notes', R.head(groups)))
-        : Either.right(groups)
-)
-
-const mapState = (state: IState): IProps => ({
-    groupedNotes: eitherNotesOrGroups(groupsSelector(state)),
-})
-
-export const hasZeroNotes = ({groupedNotes}: IProps) => groupedNotes.caseOf({
-    left: R.isEmpty,
-    right: R.either(R.isEmpty, R.all(R.propSatisfies(R.isEmpty, 'notes'))),
-});
-
-const emptyListWhenNoResults = branch(hasZeroNotes, renderComponent(EmptyList));
-
-export const ListDisplay = R.compose(
-    connect(mapState),
-    emptyListWhenNoResults,
-)(ListDisplayView);
+export const ListDisplay = compose(
+    connect(filteredNotesSelector),
+    branch(isListEmpty, renderComponent(EmptyList)),
+    // connect(selectedFiltersToProps),
+    // mapProps(notesListToGroups),
+    // branch(mustShowGroupList, renderComponent(GroupList)),
+)(NoteList)
