@@ -5,11 +5,11 @@ describe('Query tests', () => {
     describe('scenesByBook', () => {
         it('should group scenes by book', () => {
             const expected = {
-                '1a345': [
-                    {id: '1e345', title: 'Scene 1-1', isA: '5c3n33', linkedWith: ['1g345'], belongsTo: ['1c345', '1a345'], contains: []},
-                    {id: '1f345', title: 'Scene 1-2', isA: '5c3n33', linkedWith: ['1g345', '1h345'], belongsTo: ['1c345', '1a345'], contains: []},
+                'book1': [
+                    {id: 'scen1', title: 'Scene 1-1', isA: '5c3n33', linkedWith: ['char1'], belongsTo: ['chap1', 'book1'], contains: []},
+                    {id: 'scen2', title: 'Scene 1-2', isA: '5c3n33', linkedWith: ['char1', 'char2'], belongsTo: ['chap1', 'book1'], contains: []},
                 ],
-                '1b345': [],
+                'book2': [],
             };
             expect(scenesByBook).to.deep.equal(expected);
         });
