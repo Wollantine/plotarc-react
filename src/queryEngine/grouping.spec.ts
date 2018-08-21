@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { NoteBuilder } from 'model/NoteBuilder';
 import { CategoryBuilder } from 'model/CategoryBuilder';
-import { notesGroupedByCategory, notesGroupedByNote } from './grouping';
-import { Either } from 'tsmonad';
+import { notesGroupedByCategory, notesGroupedByNote, notesGroupedByNoteOrCategory } from './grouping';
+import { Either, Maybe } from 'tsmonad';
+import { Category } from 'model/Category';
 
 describe('grouping', () => {
     describe('notesGroupedByCategory', () => {
@@ -82,6 +83,48 @@ describe('grouping', () => {
             expect(sut).to.have.length(2);
             expect(sut[0].notes).to.have.length(0);
             expect(sut[1].notes).to.have.length(0);
+        })
+    })
+
+    describe('notesGroupedByNoteOrCategory', () => {
+        const notes = [
+            NoteBuilder({id: '1', isA: 'chapter', linkedWith: ['A']}),
+            NoteBuilder({id: '2', isA: 'chapter', linkedWith: ['B']}),
+            NoteBuilder({id: 'A', isA: 'character'}),
+            NoteBuilder({id: 'B', isA: 'character'}),
+            NoteBuilder({isA: 'scene'}),
+        ]
+        const categories = {
+            chapter: CategoryBuilder({id: 'chapter', notes: ['1', '2']}),
+            character: CategoryBuilder({id: 'character', notes: ['A', 'B']})
+        }
+
+        it('should return notes grouped by category if no grouping nor category are selected', () => {
+            const groupBy: Maybe<Category> = Maybe.nothing();
+            const category: Maybe<Category> = Maybe.nothing();
+            const sut = notesGroupedByNoteOrCategory(notes, groupBy, category, categories);
+            expect(sut).to.have.length(3);
+        })
+
+        it('should return an empty list if a category is selected but no grouping is selected', () => {
+            const groupBy: Maybe<Category> = Maybe.nothing();
+            const category = Maybe.just(categories.chapter);
+            const sut = notesGroupedByNoteOrCategory(notes, groupBy, category, categories);
+            expect(sut).to.deep.equal([]);
+        })
+        
+        it('should group by note if a grouping and a category are selected', () => {
+            const groupBy = Maybe.just(categories.character);
+            const category = Maybe.just(categories.chapter);
+            const sut = notesGroupedByNoteOrCategory(notes, groupBy, category, categories);
+            expect(sut).to.have.length(2);
+        })
+        
+        it('should group by note if a grouping is selected even if no category is selected', () => {
+            const groupBy = Maybe.just(categories.character);
+            const category: Maybe<Category> = Maybe.nothing();
+            const sut = notesGroupedByNoteOrCategory(notes, groupBy, category, categories);
+            expect(sut).to.have.length(2);
         })
     })
 })

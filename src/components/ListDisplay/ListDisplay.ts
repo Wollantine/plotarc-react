@@ -40,7 +40,7 @@ export function filteredNotesToProps(selectedCategory: Maybe<Category>, selected
         selectedRelatedTo.map(relatedNote => isRelatedTo(relatedNote)),
     ]
     return {
-        notes: filterNotes(R.values(notes), filters),
+        notes: filterNotes(filters, R.values(notes)),
     }
 }
 

@@ -23,6 +23,10 @@ const allFilters = (maybeFilters: Maybe<TNoteFilter>[]): TNoteFilter => (
     R.allPass(maybeFilters.map(maybeFilterToFilter))
 )
 
-export const filterNotes = (notes: Note[], maybeFilters: Maybe<TNoteFilter>[]) => (
+export const filterNotes = (maybeFilters: Maybe<TNoteFilter>[], notes: Note[]): Note[] => (
     notes.filter(allFilters(maybeFilters))
+)
+
+export const notesOfMaybeCategory = (category: Maybe<TCategoryOrId>, notes: Note[]): Note[] => (
+    filterNotes([category.map(hasCategory)], notes)
 )
