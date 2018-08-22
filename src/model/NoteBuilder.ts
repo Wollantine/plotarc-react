@@ -7,6 +7,7 @@ const defaultNote: Note = {
     belongsTo: [],
     contains: [],
     linkedWith: [],
+    description: 'Test description.',
 }
 
 export const NoteBuilder = (custom: Partial<Note>): Note => ({

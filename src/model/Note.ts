@@ -5,6 +5,7 @@ export type Note = Indexable & {
     linkedWith: string[];
     belongsTo: string[];
     contains: string[];
+    description: string;
 }
 
 export type TNoteList = {notes: Note[]};

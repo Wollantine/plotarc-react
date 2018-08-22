@@ -29,15 +29,17 @@ export const categories: R.Dictionary<Category> = {
     'ch4r4c73r4': {id: 'ch4r4c73r4', title: 'character', notes: ['char1', 'char2'], color: 'olive'},
 }
 
+export const description = 'Blabla bla bla bla bla bla bla bllabla bla bla bla bla bla bla blaa';
+
 export const notes: R.Dictionary<Note> = {
-    'book1': {id: 'book1', title: 'Book One', isA: '600k1', linkedWith: ['char1', 'char2'], belongsTo: [], contains: ['chap1', 'chap2', 'scen1', 'scen2']},
-    'book2': {id: 'book2', title: 'Book Two', isA: '600k1', linkedWith: [], belongsTo: [], contains: []},
-    'chap1': {id: 'chap1', title: 'Chapter One', isA: 'ch4p73r2', linkedWith: ['char1', 'char2'], belongsTo: ['book1'], contains: ['scen1', 'scen2']},
-    'chap2': {id: 'chap2', title: 'Chapter Two', isA: 'ch4p73r2', linkedWith: [], belongsTo: ['book1'], contains: []},
-    'scen1': {id: 'scen1', title: 'Scene 1-1', isA: '5c3n33', linkedWith: ['char1'], belongsTo: ['chap1', 'book1'], contains: []},
-    'scen2': {id: 'scen2', title: 'Scene 1-2', isA: '5c3n33', linkedWith: ['char1', 'char2'], belongsTo: ['chap1', 'book1'], contains: []},
-    'char1': {id: 'char1', title: 'GoodGood', isA: 'ch4r4c73r4', linkedWith: ['scen1', 'scen2', 'chap1', 'book1'], belongsTo: [], contains: []},
-    'char2': {id: 'char2', title: 'GoodBad', isA: 'ch4r4c73r4', linkedWith: ['scen2', 'chap1', 'book1'], belongsTo: [], contains: []},
+    'book1': {id: 'book1', title: 'Book One', isA: '600k1', linkedWith: ['char1', 'char2'], belongsTo: [], contains: ['chap1', 'chap2', 'scen1', 'scen2'], description},
+    'book2': {id: 'book2', title: 'Book Two', isA: '600k1', linkedWith: [], belongsTo: [], contains: [], description},
+    'chap1': {id: 'chap1', title: 'Chapter One', isA: 'ch4p73r2', linkedWith: ['char1', 'char2'], belongsTo: ['book1'], contains: ['scen1', 'scen2'], description},
+    'chap2': {id: 'chap2', title: 'Chapter Two', isA: 'ch4p73r2', linkedWith: [], belongsTo: ['book1'], contains: [], description},
+    'scen1': {id: 'scen1', title: 'Scene 1-1', isA: '5c3n33', linkedWith: ['char1'], belongsTo: ['chap1', 'book1'], contains: [], description},
+    'scen2': {id: 'scen2', title: 'Scene 1-2', isA: '5c3n33', linkedWith: ['char1', 'char2'], belongsTo: ['chap1', 'book1'], contains: [], description},
+    'char1': {id: 'char1', title: 'GoodGood', isA: 'ch4r4c73r4', linkedWith: ['scen1', 'scen2', 'chap1', 'book1'], belongsTo: [], contains: [], description},
+    'char2': {id: 'char2', title: 'GoodBad', isA: 'ch4r4c73r4', linkedWith: ['scen2', 'chap1', 'book1'], belongsTo: [], contains: [], description},
 }
 
 export const initialState = {

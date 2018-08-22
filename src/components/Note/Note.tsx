@@ -27,7 +27,7 @@ export const Note: React.StatelessComponent<IProps> = ({note, category}) => (
             <Item>
                 <Item.Content>
                     <Item.Header>{note.title}</Item.Header>
-                    <Item.Description>Blabla bla bla bla bla bla bla bllabla bla bla bla bla bla bla blaa</Item.Description>
+                    <Item.Description>{note.description}</Item.Description>
                 </Item.Content>
             </Item>
         </Item.Group>
