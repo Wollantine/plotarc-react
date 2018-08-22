@@ -16,12 +16,12 @@ const Container = createComponent(() => ({
 
 export const Main = () => (
     <Grid stackable>
-        <Grid.Column width={5}>
+        <Grid.Column width={7}>
             <Sticky>
                 <Sidebar><SearchForm/></Sidebar>
             </Sticky>
         </Grid.Column>
-        <Grid.Column width={11}>
+        <Grid.Column width={9}>
             <Container><ListDisplay/></Container>
         </Grid.Column>
     </Grid>
