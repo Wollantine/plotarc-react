@@ -3,15 +3,16 @@ import { IState, notesSelector } from 'redux/appState';
 import * as R from 'ramda';
 import { selectedRelatedToSelector } from '../SearchFormState';
 import { selectRelatedTo } from '../SearchFormActions';
-import { RelatedToConditionView } from './RelatedToConditionView';
+import { Selector } from '../Selector/Selector';
 
 const mapState = (state: IState) => ({
-    notes: R.values(notesSelector(state)),
-    selectedRelatedTo: selectedRelatedToSelector(state),
+    items: R.values(notesSelector(state)),
+    selectedItem: selectedRelatedToSelector(state),
+    placeholder: 'Select a note',
 })
 
 const mapDispatch = (dispatch) => ({
-    onRelatedToSelect: (note) => dispatch(selectRelatedTo(note)),
+    onSelect: (note) => dispatch(selectRelatedTo(note)),
 })
 
-export const GroupByCondition = connect(mapState, mapDispatch)(RelatedToConditionView);
+export const GroupByCondition = connect(mapState, mapDispatch)(Selector);

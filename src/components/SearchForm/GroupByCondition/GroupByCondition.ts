@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
-import { GroupByConditionView } from './GroupByConditionView';
 import { IState, categoriesSelector } from 'redux/appState';
 import * as R from 'ramda';
 import { selectedGroupBySelector } from '../SearchFormState';
 import { selectGroupBy } from '../SearchFormActions';
+import { Selector } from '../Selector/Selector';
 
 const mapState = (state: IState) => ({
-    categories: R.values(categoriesSelector(state)),
-    selectedGroupBy: selectedGroupBySelector(state),
+    items: R.values(categoriesSelector(state)),
+    selectedItem: selectedGroupBySelector(state),
+    placeholder: 'Select a category',
 })
 
 const mapDispatch = (dispatch) => ({
-    onGroupBySelect: (category) => dispatch(selectGroupBy(category)),
+    onSelect: (category) => dispatch(selectGroupBy(category)),
 })
 
-export const GroupByCondition = connect(mapState, mapDispatch)(GroupByConditionView);
+export const GroupByCondition = connect(mapState, mapDispatch)(Selector);
