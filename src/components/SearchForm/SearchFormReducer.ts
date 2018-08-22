@@ -13,10 +13,12 @@ const selectedCondition = reducerHush((state, action) => ({
 
 const selectedRelatedToId = reducerHush((state, action) => ({
     [SELECT_RELATED_TO]: () => action.noteId,
+    [SELECT_CONDITION]: () => Maybe.nothing(),
 }), Maybe.nothing())
 
 const selectedGroupById = reducerHush((state, action) => ({
     [SELECT_GROUP_BY]: () => action.categoryId,
+    [SELECT_CONDITION]: () => Maybe.nothing(),
 }), Maybe.nothing())
 
 export const searchForm = combineReducers({

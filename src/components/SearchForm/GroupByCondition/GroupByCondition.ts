@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { IState, categoriesSelector } from 'redux/appState';
+import { IState, categoriesSelector } from '../../../redux/appState';
 import * as R from 'ramda';
 import { selectedGroupBySelector } from '../SearchFormState';
 import { selectGroupBy } from '../SearchFormActions';

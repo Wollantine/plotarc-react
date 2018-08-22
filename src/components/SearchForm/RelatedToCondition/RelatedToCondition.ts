@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { IState, notesSelector } from 'redux/appState';
+import { IState, notesSelector } from '../../../redux/appState';
 import * as R from 'ramda';
 import { selectedRelatedToSelector } from '../SearchFormState';
 import { selectRelatedTo } from '../SearchFormActions';
@@ -15,4 +15,4 @@ const mapDispatch = (dispatch) => ({
     onSelect: (note) => dispatch(selectRelatedTo(note)),
 })
 
-export const GroupByCondition = connect(mapState, mapDispatch)(Selector);
+export const RelatedToCondition = connect(mapState, mapDispatch)(Selector);

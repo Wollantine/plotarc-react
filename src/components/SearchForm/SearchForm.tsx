@@ -1,15 +1,22 @@
 import * as R from 'ramda';
 import { connect } from 'react-redux';
-import { categoriesSelector, notesSelector, IState } from '../../redux/appState';
-import { selectedCategorySelector, selectedConditionSelector, selectedRelatedToSelector, selectedGroupBySelector, ECondition } from './SearchFormState';
+import { categoriesSelector, IState } from '../../redux/appState';
+import { selectedCategorySelector, selectedConditionSelector, ECondition } from './SearchFormState';
 import { SearchFormView, IProps, IActions } from './SearchFormView';
-import { selectCategory, selectCondition, selectRelatedTo, selectGroupBy } from './SearchFormActions';
+import { selectCategory, selectCondition } from './SearchFormActions';
 import { Indexable } from 'model/Indexable';
+import { RelatedToCondition } from './RelatedToCondition/RelatedToCondition';
+import { GroupByCondition } from './GroupByCondition/GroupByCondition';
 
 
 const conditionItems = {
     [ECondition.relatedTo]: 'Related to',
     [ECondition.groupBy]: 'Group by',
+}
+
+const conditionComponents = {
+    [ECondition.relatedTo]: RelatedToCondition,
+    [ECondition.groupBy]: GroupByCondition,
 }
 
 const conditionToIndexable = (condition: ECondition): Indexable => (
@@ -22,21 +29,20 @@ const conditionsAsIndexables: Indexable[] = R.pipe(
     R.map(conditionToIndexable),
 )(conditionItems)
 
-const mapState = (state: IState): IProps => ({
-    categories: R.values(categoriesSelector(state)),
-    notes: R.values(notesSelector(state)),
-    conditions: conditionsAsIndexables,
-    selectedCategory: selectedCategorySelector(state),
-    selectedCondition: selectedConditionSelector(state).map(conditionToIndexable),
-    selectedRelatedTo: selectedRelatedToSelector(state),
-    selectedGroupBy: selectedGroupBySelector(state),
-})
+const mapState = (state: IState): IProps => {
+    const maybeCondition = selectedConditionSelector(state);
+    return {
+        categories: R.values(categoriesSelector(state)),
+        conditions: conditionsAsIndexables,
+        selectedCategory: selectedCategorySelector(state),
+        selectedCondition: maybeCondition.map(conditionToIndexable),
+        conditionComponent: maybeCondition.map(cond => conditionComponents[cond]),
+    }
+}
 
 const mapDispatch = (dispatch): IActions => ({
     onCategorySelect: (category) => dispatch(selectCategory(category)),
     onConditionSelect: (condition) => dispatch(selectCondition(condition.map(c => ECondition[c]))),
-    onRelatedToSelect: (note) => dispatch(selectRelatedTo(note)),
-    onGroupBySelect: (category) => dispatch(selectGroupBy(category)),
 })
 
 export const SearchForm = connect(mapState, mapDispatch)(SearchFormView);
