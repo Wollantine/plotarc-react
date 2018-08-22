@@ -17,22 +17,22 @@ export const notesGroupedByCategory = (notes: Note[], categories: R.Dictionary<C
     R.map(([category, notes]: [string, Note[]]) => Group.fromCategory(categories[category], notes)),
 )(notes)
 
-export const notesGroupedByNote = (notes: Note[], groupingNoteIds: string[]): Group.Group[] => (
-    groupingNoteIds
-        .map(title => Group.fromString(title, notes.filter(isRelatedTo(title))))
+export const notesGroupedByNote = (notes: Note[], groupingNotes: Note[]): Group.Group[] => (
+    groupingNotes
+        .map(({title, id}) => Group.fromString(title, notes.filter(isRelatedTo(id))))
 )
 
 export const notesGroupedByNoteOrCategory = (
-    notes: Note[],
+    filteredNotes: Note[],
     selectedGroupBy: Maybe<Category>,
     selectedCategory: Maybe<Category>,
-    categories: R.Dictionary<Category>
+    categories: R.Dictionary<Category>,
+    notes: R.Dictionary<Note>,
 ): Group.Group[] => {
-    const groupingNotes = notesOfMaybeCategory(selectedGroupBy, notes)
-        .map(R.prop('id'));
+    const groupingNotes = notesOfMaybeCategory(selectedGroupBy, R.values(notes));
     return mustGroupByNotes(selectedGroupBy)
-        ? notesGroupedByNote(notes, groupingNotes)
+        ? notesGroupedByNote(filteredNotes, groupingNotes)
         : mustGroupByCategories(selectedCategory)
-        ? notesGroupedByCategory(notes, categories)
+        ? notesGroupedByCategory(filteredNotes, categories)
         : []
 }
