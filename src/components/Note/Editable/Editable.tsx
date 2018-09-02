@@ -23,12 +23,12 @@ interface IState {
 }
 
 // @ts-ignore
-const HighlightableIcon = createComponent(() => ({
+const HighlightableIcon = createComponent(({color}) => ({
     display: 'inline-block',
     color: 'grey !important',
     marginLeft: '10px',
     ':hover': {
-        color: 'blue !important'
+        color: color+' !important'
     }
 }), 'span')
 
@@ -45,14 +45,18 @@ const StatelessEditable: React.StatelessComponent<IProps & IState> = (
     return isEditing
         ? <>
             <Input as='h3' value={edit} onChange={(e) => setEdit((e.target as any).value)}/>
-            <Icon color='green' name='check' onClick={commitEdit}/>
-            <Icon color='red' name='times' onClick={rollbackEdit}/>
+            <HighlightableIcon color='green'>
+                <Icon size='large' name='check' onClick={commitEdit}/>
+            </HighlightableIcon>
+            <HighlightableIcon color='red'>
+                <Icon size='large' name='times' onClick={rollbackEdit}/>
+            </HighlightableIcon>
         </>
         : <span onMouseEnter={hoverOn} onMouseLeave={hoverOff}>
             <Text>{value}</Text>
             {isHovering && 
-                <HighlightableIcon>
-                    <Icon name='pencil' onClick={startEditing}/>
+                <HighlightableIcon color='blue'>
+                    <Icon size='large' name='pencil' onClick={startEditing}/>
                 </HighlightableIcon>
             }
         </span>
