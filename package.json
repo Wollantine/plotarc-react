@@ -16,11 +16,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
     "axios": "^0.18.0",
-    "fela": "^6.2.4",
+    "fela": "^10.2.4",
     "ramda": "^0.25.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-fela": "^7.3.1",
+    "react-fela": "^10.2.4",
     "react-redux": "^5.1.1",
     "react-spring": "^5.9.2",
     "recompose": "0.27.1",

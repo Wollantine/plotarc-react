@@ -22,14 +22,13 @@ interface IState {
     hoverOff: () => any;
 }
 
-// @ts-ignore
-const HighlightableIcon = createComponent(({color}) => ({
+const HighlightableIcon = createComponent((props: any) => ({
     display: 'inline-block',
     color: 'grey !important',
     marginLeft: '10px',
     ':hover': {
-        color: color+' !important'
-    }
+        color: `${props.color} !important`,
+    },
 }), 'span')
 
 const inlineBlockRule = () => ({
