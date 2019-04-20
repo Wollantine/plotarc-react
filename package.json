@@ -30,6 +30,7 @@
     "reselect": "^3.0.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.82.5",
+    "true-myth": "^2.2.8",
     "tsmonad": "^0.8.0"
   },
   "devDependencies": {

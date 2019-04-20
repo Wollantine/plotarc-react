@@ -1,11 +1,12 @@
 import { expect } from 'chai';
-import { filteredNotesToProps } from './ListDisplay';
+import { filteredNotesSelector } from './ListDisplay';
 import { CategoryBuilder } from 'model/CategoryBuilder';
 import { NoteBuilder } from 'model/NoteBuilder';
 import { Maybe } from 'tsmonad';
 
 describe('ListDisplay', () => {
     describe('filteredNotesToProps', () => {
+        const filteredNotesToProps = filteredNotesSelector.resultFunc
         const chapter = CategoryBuilder({id: 'chapter'})
         const tonyStark = NoteBuilder({id: 'TonyStark'})
 
@@ -17,22 +18,22 @@ describe('ListDisplay', () => {
 
         it('should filter notes according to all filters', () => {
             const sut = filteredNotesToProps(Maybe.just(chapter), Maybe.just(tonyStark), notes);
-            expect(sut.notes).to.deep.equal([]);
+            expect(sut).to.deep.equal([]);
         });
 
         it('should only filter by category if others are Nothing', () => {
             const sut = filteredNotesToProps(Maybe.just(chapter), Maybe.nothing(), notes);
-            expect(sut.notes).to.deep.equal([note1]);            
+            expect(sut).to.deep.equal([note1]);            
         });
 
         it('should only filter by relatedTo if others are Nothing', () => {
             const sut = filteredNotesToProps(Maybe.nothing(), Maybe.just(tonyStark), notes);
-            expect(sut.notes).to.deep.equal([note2, note3]);
+            expect(sut).to.deep.equal([note2, note3]);
         });
 
         it('should not filter out any note if all filters are Nothing', () => {
             const sut = filteredNotesToProps(Maybe.nothing(), Maybe.nothing(), notes);
-            expect(sut.notes).to.deep.equal([note1, note2, note3]);
+            expect(sut).to.deep.equal([note1, note2, note3]);
         });
     });
 });

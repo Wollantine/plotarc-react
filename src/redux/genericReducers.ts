@@ -1,5 +1,5 @@
-import { TAction } from "./appReducer";
-import * as R from 'ramda';
+import { TAction } from './appReducer'
+import * as R from 'ramda'
 
 export type TReducer<T> = (state: T | undefined, action: TAction) => T;
 
@@ -14,7 +14,7 @@ export const reduceWhen = <T>(
 ): TReducer<T> => (state: T = initialState, action: TAction): T => {
     return condition(action)
         ? reducer(state, action)
-        : state;
+        : state
 };
 
 export const conditionalReducer = <T>(
@@ -30,18 +30,20 @@ export const conditionalReducer = <T>(
 )
 
 export const reducer = <T>(state: T, action: TAction, cases: R.Dictionary<() => T>): T => {
-    const defaultCase = () => state;
-    const matchedCase: () => T = R.propOr(defaultCase, action.type, cases);
-    return matchedCase();
+    const defaultCase = () => state
+    const matchedCase: () => T = R.propOr(defaultCase, action.type, cases)
+    return matchedCase()
 };
+
+const isFunction = (fn: any): fn is Function => typeof fn === 'function'
 
 export const reducerHush = <T>(reducer: (state: T, action: TAction) => R.Dictionary<(state?: T, action?: TAction) => T>, initialState: T | (() => T)): TReducer<T> => {
     return (state, action) => {
         const initializedState = (state === undefined)
-            ? typeof initialState === 'function' ? initialState() : initialState
-            : state;
+            ? isFunction(initialState) ? initialState() : initialState
+            : state
         const defaultCase = () => initializedState;
-        const matchedCase: (state?: T, action?: TAction) => T = R.propOr(defaultCase, action.type, reducer(initializedState, action));
-        return matchedCase(state, action);
+        const matchedCase: (state?: T, action?: TAction) => T = R.propOr(defaultCase, action.type, reducer(initializedState, action))
+        return matchedCase(state, action)
     }
 }

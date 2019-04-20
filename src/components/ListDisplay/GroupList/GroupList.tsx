@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Maybe } from 'true-myth'
 import { Note } from 'model/Note';
 import { Group, groupId } from 'model/Group';
 import { NoteGroup } from '../../NoteGroup/NoteGroup';
@@ -9,15 +10,24 @@ export interface IProps {
     groups: Group[];
 }
 
-const Groups: React.StatelessComponent<{groups: Group[]}> = ({groups}) => (
+const Groups = ({groups}) => (
     <>
-        {groups.map(group => <NoteGroup key={groupId(group)} {...group}/>)}
+        {groups.map(group => (
+            <NoteGroup
+                key={groupId(group)}
+                {...group}
+            />
+        ))}
     </>
 )
 
-const notesOfFirstGroup: (groups: Group[]) => Note[] = R.pipe(R.head, R.propOr([], 'notes')) as any
+const notesOfFirstGroup: (groups: Group[]) => Note[] = groups => (
+    Maybe.head(groups)
+        .chain(Maybe.property('notes'))
+        .unwrapOr([])
+)
 
-export const GroupList: React.StatelessComponent<IProps> = ({groups}) => (
+export const GroupList = ({groups}: IProps) => (
     groups.length > 1
         ? <Groups groups={groups}/>
         : <NoteList notes={notesOfFirstGroup(groups)}/>
