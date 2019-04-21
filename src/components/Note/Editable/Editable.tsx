@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { createComponent } from 'react-fela'
 import { withStateHandlers } from 'recompose';
 import { Input, Icon } from 'semantic-ui-react';
-import { createComponent } from 'react-fela';
 import { defaultTo } from 'ramda';
 
 export interface IProps {
@@ -17,19 +17,17 @@ interface IState {
     isEditing: boolean;
     rollbackEdit: () => any;
     setEdit: (text: string) => any;
-    isHovering: boolean;
-    hoverOn: () => any;
-    hoverOff: () => any;
 }
 
-const HighlightableIcon = createComponent((props: any) => ({
-    display: 'inline-block',
-    color: 'grey !important',
+const EditIcon = createComponent(({isVisible, color, children, className = ''}) => ({
+    display: isVisible ? 'inline-block' : 'none',
+    cursor: 'pointer',
+    color: 'grey',
     marginLeft: '10px',
     ':hover': {
-        color: `${props.color} !important`,
-    },
-}), 'span')
+        color,
+    }
+}), 'span', ['className'])
 
 const inlineBlockRule = () => ({
     display: 'inline-block',
@@ -37,45 +35,47 @@ const inlineBlockRule = () => ({
     verticalAlign: 'top',
 })
 
-const StatelessEditable: React.StatelessComponent<IProps & IState> = (
-    {value, componentType, edit, isEditing, startEditing, commitEdit, rollbackEdit, setEdit, hoverOn, hoverOff, isHovering}
-) => {
+const ClickableText = createComponent(() => ({
+    cursor: 'pointer',
+    ':hover > .editIcon': {
+        display: 'inline-block',
+    },
+}), 'span', ['onClick'])
+
+const StatelessEditable: React.StatelessComponent<IProps & IState> = ({
+    value, componentType, edit, isEditing, startEditing, commitEdit, rollbackEdit, setEdit
+}) => {
     const Text = createComponent(inlineBlockRule, defaultTo('span', componentType))
     return isEditing
         ? <>
             <Input as='h3' value={edit} onChange={(e) => setEdit((e.target as any).value)}/>
-            <HighlightableIcon color='green'>
+            <EditIcon isVisible={true} color='green'>
                 <Icon size='large' name='check' onClick={commitEdit}/>
-            </HighlightableIcon>
-            <HighlightableIcon color='red'>
+            </EditIcon>
+            <EditIcon isVisible={true} color='red'>
                 <Icon size='large' name='times' onClick={rollbackEdit}/>
-            </HighlightableIcon>
+            </EditIcon>
         </>
-        : <span onMouseEnter={hoverOn} onMouseLeave={hoverOff}>
+        : <ClickableText onClick={startEditing}>
             <Text>{value}</Text>
-            {isHovering && 
-                <HighlightableIcon color='blue'>
-                    <Icon size='large' name='pencil' onClick={startEditing}/>
-                </HighlightableIcon>
-            }
-        </span>
+            <EditIcon color='blue' isVisible={false} className='editIcon'>
+                <Icon size='large' name='pencil'/>
+            </EditIcon>
+        </ClickableText>
 }
 
 export const Editable = withStateHandlers(
     (props: IProps) => ({
         edit: props.value,
         isEditing: false,
-        isHovering: false,
     }),
     {
-        startEditing: (state) => () => ({isEditing: true, isHovering: false}),
+        startEditing: (state) => () => ({isEditing: true}),
         commitEdit: (state, props) => () => {
             props.onChange(state.edit);
             return {isEditing: false};
         },
         rollbackEdit: (state, props) => () => ({isEditing: false, edit: props.value}),
         setEdit: (state) => (text: string) => ({edit: text}),
-        hoverOn: (state) => () => ({isHovering: true}),
-        hoverOff: (state) => () => ({isHovering: false}),
     }
 )(StatelessEditable as any)

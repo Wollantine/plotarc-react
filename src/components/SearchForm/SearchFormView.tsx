@@ -3,6 +3,7 @@ import { Maybe } from 'tsmonad';
 import { Selector } from './Selector/Selector';
 import { Category } from 'model/Category';
 import { Note } from 'model/Note';
+import { createComponent } from 'react-fela';
 
 export interface IProps {
     categories: Category[];
@@ -18,6 +19,11 @@ export interface IActions {
     onGroupBySelect: (category: Maybe<string>) => void;
 }
 
+const Label = createComponent(() => ({
+    display: 'block',
+    marginTop: '10px',
+}))
+
 export const SearchFormView: React.StatelessComponent<IProps & IActions> = ({
     categories, notes, selectedCategory, onCategorySelect,
     selectedRelatedTo, onRelatedToSelect,
@@ -31,14 +37,14 @@ export const SearchFormView: React.StatelessComponent<IProps & IActions> = ({
             onSelect={onCategorySelect}
             placeholder='Select a category'
         />
-        <span>Related to:</span>
+        <Label>Related to:</Label>
         <Selector
             items={notes}
             selectedItem={selectedRelatedTo}
             onSelect={onRelatedToSelect}
             placeholder='Select a note'
         />
-        <span>Group by:</span>
+        <Label>Group by:</Label>
         <Selector
             items={categories}
             selectedItem={selectedGroupBy}
